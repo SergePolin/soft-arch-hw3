@@ -76,8 +76,8 @@ twitter_clone/
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
-   cd twitter_clone
+   git clone https://github.com/SergePolin/soft-arch-hw3
+   cd soft-arch-hw3
    ```
 
 2. Create a virtual environment (optional but recommended):
@@ -90,7 +90,7 @@ twitter_clone/
 3. Install required packages:
 
    ```bash
-   pip install flask redis requests
+   pip install -r requirements.txt
    ```
 
 4. Ensure Redis is installed and running on your system.

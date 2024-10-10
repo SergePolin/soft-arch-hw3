@@ -81,7 +81,7 @@ def main():
             break
         else:
             print("Unknown command.")
-        time.sleep(1)  # Add a small delay to avoid overwhelming the services
+        time.sleep(1)
 
 if __name__ == "__main__":
     main()

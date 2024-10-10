@@ -13,7 +13,7 @@ class MessageService:
             return False
         message = json.dumps({"user": username, "content": content, "likes": 0})
         redis_client.lpush('messages', message)
-        redis_client.ltrim('messages', 0, 999)  # Keep last 1000 messages
+        redis_client.ltrim('messages', 0, 999) 
         return True
 
     @staticmethod
