@@ -38,14 +38,24 @@ def get_feed():
         response = requests.get(f"{FEED_SERVICE_URL}/feed")
         response.raise_for_status()
         messages = response.json()
-        for msg in messages:
-            print(f"{msg['user']}: {msg['content']} (Likes: {msg['likes']})")
+        for i, msg in enumerate(messages):
+            print(f"{i}: {msg['user']}: {msg['content']} (Likes: {msg['likes']})")
+        return messages
     except requests.RequestException as e:
         print(f"Failed to fetch feed: {e}")
+        return []
+
+def like_message(index):
+    try:
+        response = requests.post(f"{MESSAGE_SERVICE_URL}/like/{index}")
+        response.raise_for_status()
+        print("Message liked successfully.")
+    except requests.RequestException as e:
+        print(f"Failed to like message: {e}")
 
 def main():
     while True:
-        command = input("Enter command (register/post/feed/exit): ")
+        command = input("Enter command (register/post/feed/like/exit): ")
         if command == "register":
             username = input("Enter username: ")
             register_user(username)
@@ -55,6 +65,18 @@ def main():
             post_message(username, content)
         elif command == "feed":
             get_feed()
+        elif command == "like":
+            messages = get_feed()
+            if messages:
+                index = input("Enter the index of the message to like: ")
+                try:
+                    index = int(index)
+                    if 0 <= index < len(messages):
+                        like_message(index)
+                    else:
+                        print("Invalid message index.")
+                except ValueError:
+                    print("Please enter a valid number.")
         elif command == "exit":
             break
         else:
