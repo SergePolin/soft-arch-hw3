@@ -1,18 +1,27 @@
 import os
 import requests
 import time
+import json
 
 USER_SERVICE_URL = os.getenv('USER_SERVICE_URL', 'http://localhost:5000')
 MESSAGE_SERVICE_URL = os.getenv('MESSAGE_SERVICE_URL', 'http://localhost:5001')
 FEED_SERVICE_URL = os.getenv('FEED_SERVICE_URL', 'http://localhost:5002')
 
 def register_user(username):
+    url = f"{USER_SERVICE_URL}/register"
+    data = {
+        "username": username
+    }
+    headers = {"Content-Type": "application/json"}
+    
     try:
-        response = requests.post(f"{USER_SERVICE_URL}/register", json={"username": username})
+        response = requests.post(url, data=json.dumps(data), headers=headers)
         response.raise_for_status()
-        print("User registered successfully.")
+        print("User registered successfully")
     except requests.RequestException as e:
         print(f"Failed to register user: {e}")
+        if hasattr(e, 'response') and e.response is not None:
+            print(e.response.text)
 
 def check_user_exists(username):
     try:
